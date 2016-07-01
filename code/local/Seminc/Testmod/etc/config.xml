@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Seminc_Testmod>
+            <version>0.1.0</version>    <!-- Version number of your module -->
+        </Seminc_Testmod>
+    </modules>
+    <frontend>
+        <routers>
+            <testmod>
+                <use>standard</use>
+                <args>
+                    <module>Seminc_Testmod</module>
+                    <frontName>testmod</frontName>
+                </args>
+            </testmod>
+        </routers>
+        <layout>
+            <updates>
+                <testmod>
+                    <file>testmod.xml</file> <!-- Our layout file name-->
+                </testmod>
+            </updates>
+        </layout>
+    </frontend>
+    <global>
+        <blocks>
+            <testmod>
+                <class>Seminc_Testmod_Block</class>
+            </testmod>
+        </blocks>
+    </global>
+</config>

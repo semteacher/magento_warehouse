@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Seminc_Testmod>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Seminc_Testmod>
+    </modules>
+</config>
