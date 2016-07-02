@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <testmod translate="title" module="Seminc_Testmod">
+            <title>Product Bulk Management</title>
+            <sort_order>71</sort_order>
+            <children>
+                <items module="Seminc_Testmod">
+                    <title>Manage Product by CSV</title>
+                    <sort_order>0</sort_order>
+                    <action>adminhtml/testmod/index</action>
+                </items>
+            </children>
+        </testmod>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <testmod translate="title" module="Seminc_Testmod">
+                        <title>Product Bulk Management</title>
+                        <sort_order>300</sort_order>
+                        <children>
+                            <items translate="title"
+                                   module="Seminc_Testmod">
+                                <title>Manage Product by CSV</title>
+                                <sort_order>0</sort_order>
+                            </items>
+                        </children>
+                    </testmod>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

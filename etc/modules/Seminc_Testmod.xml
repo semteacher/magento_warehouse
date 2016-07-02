@@ -4,6 +4,9 @@
         <Seminc_Testmod>
             <active>true</active>
             <codePool>local</codePool>
+            <depends>
+                <Mage_adminhtml />
+            </depends>
         </Seminc_Testmod>
     </modules>
 </config>

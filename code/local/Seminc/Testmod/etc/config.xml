@@ -23,6 +23,24 @@
             </updates>
         </layout>
     </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <seminc_testmod before="Mage_Adminhtml">Seminc_Testmod_Adminhtml</seminc_testmod>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+        <layout>
+            <updates>
+                <testmod>
+                    <file>testmod.xml</file> <!-- Our layout file name-->
+                </testmod>
+            </updates>
+        </layout>
+    </admin>
     <global>
         <blocks>
             <testmod>
