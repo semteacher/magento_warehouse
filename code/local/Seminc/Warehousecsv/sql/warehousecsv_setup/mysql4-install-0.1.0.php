@@ -19,7 +19,7 @@ $table = $installer->getConnection()->newTable($installer->getTable('warehousecs
         'nullable' => false,
     ), 'Warehouse Name')
     ->addColumn('location', Varien_Db_Ddl_Table::TYPE_TEXT, null, array(
-        'nullable'  => false,
+        'nullable'  => true,
     ), 'Location')
     ->setComment('Seminc warehousecsv/warehouse entity table');
 $installer->getConnection()->createTable($table);
@@ -35,14 +35,16 @@ $table = $installer->getConnection()->newTable($installer->getTable('warehousecs
         'unsigned' => true,
         'nullable' => false,
     ), 'Prod. ID')
-    ->addColumn('messagetext', Varien_Db_Ddl_Table::TYPE_TEXT, null, array(
+    ->addColumn('warehouse_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'unsigned' => true,
         'nullable' => false,
-    ), 'Message Text')
-    ->addColumn('date', Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(
-    ), 'Message Date')
-    ->addColumn('timestamp', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
-    ), 'Timestamp')
-    ->setComment('Seminc testmod/prodmessage entity table');
+    ), 'Wareh. ID')
+    ->addColumn('prodqtperwareh', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'unsigned' => true,
+        'nullable' => false,
+    ), 'Prod. Qt.')
+
+    ->setComment('Seminc warehousecsv/prodquantities entity table');
 
 $installer->getConnection()->createTable($table);
 
