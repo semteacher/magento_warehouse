@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-    <testmod_index_index>
+    <adminhtml_warehousecsv_index>
         <reference name="content">
             <block type="warehousecsv/warehousecsv" name="warehousecsv" template="warehousecsv/warehousecsv.phtml" />
         </reference>
-    </testmod_index_index>
+    </adminhtml_warehousecsv_index>
 </layout>
