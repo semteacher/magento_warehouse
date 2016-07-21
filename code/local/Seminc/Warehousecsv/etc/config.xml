@@ -47,5 +47,38 @@
                 <class>Seminc_Warehousecsv_Block</class>
             </warehousecsv>
         </blocks>
+
+        <helpers>
+            <seminc_testmod>
+                <class>Seminc_Warehousecsv_Helper</class>
+            </seminc_testmod>
+        </helpers>
+
+        <models>
+            <warehousecsv>
+                <class>Seminc_Warehousecsv_Model</class>
+                <resourceModel>warehousecsv_resource</resourceModel>
+            </warehousecsv>
+            <warehousecsv_resource>
+                <class>Seminc_Warehousecsv_Model_Resource</class>
+                <entities>
+                    <warehouses>
+                        <table>csv_warehouses</table>
+                    </warehouses>
+                    <prodquantities>
+                        <table>csv_warehouse_prodquantities</table>
+                    </prodquantities>
+                </entities>
+            </warehousecsv_resource>
+        </models>
+
+        <resources>
+            <warehousecsv_setup>
+                <setup>
+                    <module>Seminc_Warehousecsv</module>
+                    <class>Seminc_Warehousecsv_Model_Resource_Setup</class>
+                </setup>
+            </warehousecsv_setup>
+        </resources>
     </global>
 </config>
