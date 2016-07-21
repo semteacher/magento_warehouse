@@ -4,9 +4,6 @@
         <Seminc_Warehousecsv>
             <active>true</active>
             <codePool>local</codePool>
-            <depends>
-                <Mage_adminhtml />
-            </depends>
         </Seminc_Warehousecsv>
     </modules>
 </config>
