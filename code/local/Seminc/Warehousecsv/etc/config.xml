@@ -28,7 +28,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <seminc_testmod before="Mage_Adminhtml">Seminc_Warehousecsv_Adminhtml</seminc_testmod>
+                        <seminc_warehousecsv before="Mage_Adminhtml">Seminc_Warehousecsv_Adminhtml</seminc_warehousecsv>
                     </modules>
                 </args>
             </adminhtml>
@@ -49,9 +49,9 @@
         </blocks>
 
         <helpers>
-            <seminc_testmod>
+            <seminc_warehousecsv>
                 <class>Seminc_Warehousecsv_Helper</class>
-            </seminc_testmod>
+            </seminc_warehousecsv>
         </helpers>
 
         <models>
@@ -62,9 +62,9 @@
             <warehousecsv_resource>
                 <class>Seminc_Warehousecsv_Model_Resource</class>
                 <entities>
-                    <warehouses>
-                        <table>csv_warehouses</table>
-                    </warehouses>
+                    <warehouse>
+                        <table>csv_warehouse_data</table>
+                    </warehouse>
                     <prodquantities>
                         <table>csv_warehouse_prodquantities</table>
                     </prodquantities>
