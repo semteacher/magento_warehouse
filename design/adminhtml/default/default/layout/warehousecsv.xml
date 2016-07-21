@@ -1,8 +1,13 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-    <adminhtml_warehousecsv_index>
+    <adminhtml_warehouse_index>
         <reference name="content">
-            <block type="warehousecsv/warehousecsv" name="warehousecsv" template="warehousecsv/warehousecsv.phtml" />
+            <block type="warehousecsv/adminhtml_warehouse" name="warehousecsv_warehouse" />
         </reference>
-    </adminhtml_warehousecsv_index>
+    </adminhtml_warehouse_index>
+    <adminhtml_prodquantities_index>
+        <reference name="content">
+            <block type="warehousecsv/adminhtml_prodquantities" name="warehousecsv_prodquantities" />
+        </reference>
+    </adminhtml_prodquantities_index>
 </layout>

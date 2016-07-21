@@ -51,22 +51,4 @@
             </admin>
         </resources>
     </acl>
-    <!-- Define ACL for access to these menu items. -->
-    <acl>
-        <resources>
-            <admin>
-                <children>
-                    <seminc_testmod translate="title" module="seminc_testmod">
-                        <title>Product Messages</title>
-                        <sort_order>75</sort_order>
-                        <children>
-                            <prodmessage translate="title" module="seminc_testmod">
-                                <title>Manage Product Messages</title>
-                            </prodmessage>
-                        </children>
-                    </seminc_testmod>
-                </children>
-            </admin>
-        </resources>
-    </acl>
 </config>

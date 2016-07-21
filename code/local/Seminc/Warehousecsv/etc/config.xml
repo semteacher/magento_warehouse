@@ -23,25 +23,14 @@
             </updates>
         </layout>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <seminc_warehousecsv before="Mage_Adminhtml">Seminc_Warehousecsv_Adminhtml</seminc_warehousecsv>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-        <layout>
-            <updates>
-                <warehousecsv>
-                    <file>warehousecsv.xml</file> <!-- Our layout file name-->
-                </warehousecsv>
-            </updates>
-        </layout>
-    </admin>
     <global>
+        <!--add an adminhtml block definition-->
+        <blocks>
+            <seminc_warehousecsv_adminhtml>
+                <class>Seminc_Warehousecsv_Block_Adminhtml</class>
+            </seminc_warehousecsv_adminhtml>
+        </blocks>
+
         <blocks>
             <warehousecsv>
                 <class>Seminc_Warehousecsv_Block</class>
@@ -81,4 +70,24 @@
             </warehousecsv_setup>
         </resources>
     </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Seminc_Warehousecsv before="Mage_Adminhtml">Seminc_Warehousecsv_Adminhtml</Seminc_Warehousecsv>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <warehousecsv>
+                    <file>warehousecsv.xml</file>
+                </warehousecsv>
+            </updates>
+        </layout>
+    </adminhtml>
 </config>
