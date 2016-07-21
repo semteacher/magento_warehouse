@@ -1,33 +1,33 @@
 <?xml version="1.0"?>
 <config>
     <menu>
-        <testmod translate="title" module="Seminc_Testmod">
+        <warehousecsv translate="title" module="Seminc_Warehousecsv">
             <title>Product Bulk Management</title>
             <sort_order>71</sort_order>
             <children>
-                <items module="Seminc_Testmod">
+                <items module="Seminc_Warehousecsv">
                     <title>Manage Product by CSV</title>
                     <sort_order>0</sort_order>
-                    <action>adminhtml/testmod/index</action>
+                    <action>adminhtml/warehousecsv/index</action>
                 </items>
             </children>
-        </testmod>
+        </warehousecsv>
     </menu>
     <acl>
         <resources>
             <admin>
                 <children>
-                    <testmod translate="title" module="Seminc_Testmod">
+                    <warehousecsv translate="title" module="Seminc_Warehousecsv">
                         <title>Product Bulk Management</title>
                         <sort_order>300</sort_order>
                         <children>
                             <items translate="title"
-                                   module="Seminc_Testmod">
+                                   module="Seminc_Warehousecsv">
                                 <title>Manage Product by CSV</title>
                                 <sort_order>0</sort_order>
                             </items>
                         </children>
-                    </testmod>
+                    </warehousecsv>
                 </children>
             </admin>
         </resources>

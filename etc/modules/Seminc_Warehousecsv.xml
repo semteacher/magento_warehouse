@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <Seminc_Testmod>
+        <Seminc_Warehousecsv>
             <active>true</active>
             <codePool>local</codePool>
             <depends>
                 <Mage_adminhtml />
             </depends>
-        </Seminc_Testmod>
+        </Seminc_Warehousecsv>
     </modules>
 </config>

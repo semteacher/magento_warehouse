@@ -5,7 +5,7 @@
  * Date: 06.06.2016
  * Time: 20:22
  */
-class Seminc_Testmod_IndexController extends Mage_Core_Controller_Front_Action
+class Seminc_Warehousecsv_IndexController extends Mage_Core_Controller_Front_Action
 {
     public function indexAction()
     {

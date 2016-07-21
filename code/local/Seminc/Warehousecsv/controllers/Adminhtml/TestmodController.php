@@ -5,7 +5,7 @@
  * Date: 01.07.2016
  * Time: 17:13
  */
-class Seminc_Testmod_Adminhtml_TestmodController extends Mage_Adminhtml_Controller_Action
+class Seminc_Warehousecsv_Adminhtml_WarehousecsvController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {

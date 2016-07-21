@@ -1,25 +1,25 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <Seminc_Testmod>
+        <Seminc_Warehousecsv>
             <version>0.1.0</version>    <!-- Version number of your module -->
-        </Seminc_Testmod>
+        </Seminc_Warehousecsv>
     </modules>
     <frontend>
         <routers>
-            <testmod>
+            <warehousecsv>
                 <use>standard</use>
                 <args>
-                    <module>Seminc_Testmod</module>
-                    <frontName>testmod</frontName>
+                    <module>Seminc_Warehousecsv</module>
+                    <frontName>warehousecsv</frontName>
                 </args>
-            </testmod>
+            </warehousecsv>
         </routers>
         <layout>
             <updates>
-                <testmod>
-                    <file>testmod.xml</file> <!-- Our layout file name-->
-                </testmod>
+                <warehousecsv>
+                    <file>warehousecsv.xml</file> <!-- Our layout file name-->
+                </warehousecsv>
             </updates>
         </layout>
     </frontend>
@@ -28,24 +28,24 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <seminc_testmod before="Mage_Adminhtml">Seminc_Testmod_Adminhtml</seminc_testmod>
+                        <seminc_testmod before="Mage_Adminhtml">Seminc_Warehousecsv_Adminhtml</seminc_testmod>
                     </modules>
                 </args>
             </adminhtml>
         </routers>
         <layout>
             <updates>
-                <testmod>
-                    <file>testmod.xml</file> <!-- Our layout file name-->
-                </testmod>
+                <warehousecsv>
+                    <file>warehousecsv.xml</file> <!-- Our layout file name-->
+                </warehousecsv>
             </updates>
         </layout>
     </admin>
     <global>
         <blocks>
-            <testmod>
-                <class>Seminc_Testmod_Block</class>
-            </testmod>
+            <warehousecsv>
+                <class>Seminc_Warehousecsv_Block</class>
+            </warehousecsv>
         </blocks>
     </global>
 </config>

@@ -1,5 +1,5 @@
 <?php
-class Seminc_Testmod_Block_Testmod extends Mage_Core_Block_Template
+class Seminc_Warehousecsv_Block_Warehousecsv extends Mage_Core_Block_Template
 {
     public function testblocfunction()
     {

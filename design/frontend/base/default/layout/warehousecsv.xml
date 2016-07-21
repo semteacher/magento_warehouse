@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <testmod_index_index>
+        <reference name="content">
+            <block type="warehousecsv/warehousecsv" name="warehousecsv" template="warehousecsv/warehousecsv.phtml">
+                <block type="customer/form_register" name="customer_form_register" template="customer/form/register.phtml"/>
+            </block>
+        </reference>
+    </testmod_index_index>
+
+</layout>
