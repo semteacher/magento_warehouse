@@ -1,33 +1,70 @@
 <?xml version="1.0"?>
 <config>
     <menu>
-        <warehousecsv translate="title" module="Seminc_Warehousecsv">
-            <title>Product Bulk Management</title>
-            <sort_order>71</sort_order>
+        <!--First, create a top-level menu item, which will appear alongside CMS-->
+        <seminc_warehousecsv translate="title" module="seminc_warehousecsv">
+            <title>Warehouse Management</title>
+            <sort_order>76</sort_order>
+            <depends>
+                <module>Seminc_Warehousecsv</module>
+            </depends>
+
+            <!-- Under this top-level menu, create a child menu item. -->
             <children>
-                <items module="Seminc_Warehousecsv">
-                    <title>Manage Product by CSV</title>
-                    <sort_order>0</sort_order>
-                    <action>adminhtml/warehousecsv/index</action>
-                </items>
+                <warehouse translate="title" module="seminc_warehousecsv">
+                    <title>Warehouses</title>
+                    <sort_order>10</sort_order>
+                    <!--When the menu is clicked, take the user here.-->
+                    <action>adminhtml/warehouse</action>
+                </warehouse>
             </children>
-        </warehousecsv>
+            <!-- Under this top-level menu, create a child menu item. -->
+            <children>
+                <prodquantities translate="title" module="seminc_warehousecsv">
+                    <title>Products by Warehouses</title>
+                    <sort_order>20</sort_order>
+                    <!--When the menu is clicked, take the user here.-->
+                    <action>adminhtml/prodquantities</action>
+                </prodquantities>
+            </children>
+        </seminc_warehousecsv>
     </menu>
     <acl>
         <resources>
             <admin>
                 <children>
-                    <warehousecsv translate="title" module="Seminc_Warehousecsv">
-                        <title>Product Bulk Management</title>
-                        <sort_order>300</sort_order>
+                    <seminc_warehousecsv translate="title" module="Seminc_Warehousecsv">
+                        <title>Warehouse Management</title>
+                        <sort_order>76</sort_order>
                         <children>
-                            <items translate="title"
-                                   module="Seminc_Warehousecsv">
-                                <title>Manage Product by CSV</title>
-                                <sort_order>0</sort_order>
-                            </items>
+                            <warehouse translate="title" module="seminc_warehousecsv">
+                                <title>Warehouses</title>
+                            </warehouse>
                         </children>
-                    </warehousecsv>
+                        <children>
+                            <prodquantities translate="title" module="seminc_warehousecsv">
+                                <title>Products by Warehouses</title>
+                            </prodquantities>
+                        </children>
+                    </seminc_warehousecsv>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <!-- Define ACL for access to these menu items. -->
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <seminc_testmod translate="title" module="seminc_testmod">
+                        <title>Product Messages</title>
+                        <sort_order>75</sort_order>
+                        <children>
+                            <prodmessage translate="title" module="seminc_testmod">
+                                <title>Manage Product Messages</title>
+                            </prodmessage>
+                        </children>
+                    </seminc_testmod>
                 </children>
             </admin>
         </resources>
