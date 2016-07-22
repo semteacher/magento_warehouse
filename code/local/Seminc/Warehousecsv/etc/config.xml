@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Seminc_Warehousecsv>
-            <version>0.1.0</version>    <!-- Version number of your module -->
+            <version>0.1.2</version>    <!-- Version number of your module -->
         </Seminc_Warehousecsv>
     </modules>
     <frontend>
