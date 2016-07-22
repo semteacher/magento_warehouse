@@ -29,7 +29,11 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
             ->_setActiveMenu('seminc_warehousecsv')
             ->_title($this->__('Manage Products by Warehouses'))
             ->_addBreadcrumb($this->__('Warehouse Management'), $this->__('Manage Products by Warehouses'));
-//var_dump($this->loadLayout());
+        //add form block BELOW grid
+       // $this->loadLayout()->_addContent(
+       //     $this->getLayout()
+       //         ->createBlock('warehousecsv/adminhtml_csvuploadform')
+       //         ->setTemplate('warehousecsv/csvuploadform.phtml'));
         return $this;
     }
 

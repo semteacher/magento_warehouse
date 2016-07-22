@@ -7,7 +7,9 @@
     </adminhtml_warehouse_index>
     <adminhtml_prodquantities_index>
         <reference name="content">
-            <block type="warehousecsv/adminhtml_prodquantities" name="warehousecsv_prodquantities" />
+            <block type="warehousecsv/adminhtml_prodquantities" name="warehousecsv_prodquantities" template="warehousecsv/prodquantities.phtml">
+                <block type="warehousecsv/adminhtml_csvuploadform" name="warehousecsv_csvuploadform" as="warehousecsv_csvuploadform" template="warehousecsv/csvuploadform.phtml" />
+            </block>
         </reference>
     </adminhtml_prodquantities_index>
 </layout>
