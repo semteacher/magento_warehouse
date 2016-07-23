@@ -58,15 +58,89 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
 
     protected function _csvfileprocessingAction($filename)
     {
+        $errors = '';
         $csv = new Varien_File_Csv();
         $data = $csv->getData($filename);
         var_dump( $data );
-
+        //get models
+        $_product = Mage::getModel('catalog/product');
+        $_warehouse = Mage::getModel('warehousecsv/warehouse');
+        $_prodquantities = Mage::getModel('warehousecsv/prodquantities');
+        //process all rows in csv
         foreach ($data as $key=>$row) {
             $prodname = $row[0];
             $proddelta = $row[1];
             $warehname = $row[2];
             echo "<br>prodname=".$row[0]." delta=".$row[1]." wareh.=".$row[2];
+            //load warehouse model
+            $_warehouse = $_warehouse->load($warehname,'warehousename');
+            if (!$_warehouse) {
+                //create a new warehouse
+                $_warehouse->setWarehousename($warehname);
+                //TODO: tay/exception required
+                $_warehouse->save();
+                echo "<br>create warehouse ".$warehname;
+            }
+            $warehouse_id = $_warehouse->getWarehouse_id();
+            //load product model
+            $_product = $_product->loadByAttribute('name',$prodname);
+            if ($_product){
+                //precess only existing products
+                //get product SKU
+                $product_sku = $_product->getSku();
+                echo "<br>get product SKU=".$product_sku;
+                //get product inventory quantity
+                $_stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product);
+                $product_qty = $_stock->getQty();
+                //load produqntites model
+                $_prodquantities_col = $_prodquantities->getCollection()
+                    ->addFieldToFilter('warehouse_id', $warehouse_id)
+                    ->addFieldToFilter('product_sku', $product_sku);
+                $_prodquantities = $_prodquantities_col->getFirstItem();
+                if ($_prodquantities->getId()){
+                    //the item exists in warehouse module
+                    $new_prodquantities = $_prodquantities->getProdqtperwareh()+ $proddelta;
+                    echo "<br>prepare change existing product qty from ".$_prodquantities->getProdqtperwareh()." to ".$new_prodquantities;
+                    if ($new_prodquantities < 0) {
+                        $new_prodquantities = 0;
+                        //TODO: tay/exception required?
+                        $_prodquantities->delete();
+                        echo "<br>zero - delete existing module product qty record";
+                    } else {
+                        $_prodquantities->setProdqtperwareh($new_prodquantities);
+                        //TODO: tay/exception required
+                        $_prodquantities->save();
+                        echo "<br>save change existing product qty";
+                    }
+                }
+                else {
+                    //the item does not exist in warehouse module - update through mage core inventory
+                    $new_prodquantities = $product_qty + $proddelta;
+                    echo "<br>prepare create new product qty from ".$product_qty." to ".$new_prodquantities;
+                    if ($new_prodquantities < 0) {
+                        $new_prodquantities = 0;
+                        echo "<br>new qty=0 without existing product qty - do nothing!";
+                    } else {
+                        $_prodquantities->setProdqtperwareh($new_prodquantities);
+                        //TODO: tay/exception required
+                        $_prodquantities->save();
+                        echo "<br>save change new product qty";
+                    }
+                }
+                //if ($new_prodquantities < 0) { $new_prodquantities = 0; }
+                //update mage core inventory
+                //$product_qty = $new_prodquantities;
+                $_stock->setQty($new_prodquantities);
+                $_stock->setData('is_in_stock',$new_prodquantities ? 1 : 0);
+                //TODO: tay/exception required
+                $_stock->save();
+                echo "<br>save change mage inventory update from ".$product_qty." to ".$new_prodquantities;
+
+            } else {
+                //exception/log that product does not exist
+                $errors = $errors.'"'.$prodname.'" does not exist<br>';
+            }
+
         }
 
         die();
