@@ -17,6 +17,13 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
             ->renderLayout();
     }
 
+    public function csvformsubmitAction()
+    {
+        echo "csvformsubmit action!";
+        //var_dump();
+        die;
+    }
+    
     /**
      * Initialize action
      * Here, we set the breadcrumbs and the active menu
