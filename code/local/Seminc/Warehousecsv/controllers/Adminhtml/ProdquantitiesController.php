@@ -19,11 +19,40 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
 
     public function csvformsubmitAction()
     {
-        echo "csvformsubmit action!";
-        //var_dump();
-        die;
+        if ($data = $this->getRequest()->getPost()) {
+            if (isset($_FILES['file_csv']['name']) && $_FILES['file_csv']['name'] != '') {
+                try
+                {
+                    $path = Mage::getBaseDir().DS.'media'.DS.'import'.DS.'csv'.DS;  //desitnation directory
+                    $fname = $_FILES['file_csv']['name']; //file name
+                    $fullname = $path.$fname;
+                    $uploader = new Varien_File_Uploader('file_csv'); //load class
+                    $uploader->setAllowedExtensions(array('CSV','csv')); //Allowed extension for file
+                    $uploader->setAllowCreateFolders(true); //for creating the directory if not exists
+                    $uploader->setAllowRenameFiles(false);
+                    $uploader->setFilesDispersion(false);
+                    $uploader->save($path, $fname); //save the
+                }
+                catch (Exception $e)
+                {
+                    $uploadError = $fname." - Upload error or invalid file format";
+                }
+            } else {
+                $uploadError = "Upload file does not specified";
+            }
+        }
+        if ($uploadError) {
+            Mage::getSingleton('adminhtml/session')->addError( Mage::helper('core')->__($uploadError));
+            //$this->_redirect('*/*/');
+            $this->_redirectReferer();
+            return;
+        } else {
+            Mage::getSingleton('adminhtml/session')->addSuccess( Mage::helper('core')->__($fname." - File upload success"));
+            $this->_redirectReferer();
+            return;
+        }
     }
-    
+
     /**
      * Initialize action
      * Here, we set the breadcrumbs and the active menu

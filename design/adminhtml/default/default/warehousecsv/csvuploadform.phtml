@@ -7,7 +7,7 @@ $_submitmessageUrl = $this->getSubmitUrl();
     <form action="<?php echo $_submitmessageUrl; ?>" method="post" enctype="multipart/form-data" >
         <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
         <h3 class="icon-head head-prodquantities">Select CSV file to upload:</h3>
-        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="file" name="file_csv" id="file_csv">
         <input type="submit" value="Upload CSV" name="submit" class="scallable" >
     </form>
 </div>
