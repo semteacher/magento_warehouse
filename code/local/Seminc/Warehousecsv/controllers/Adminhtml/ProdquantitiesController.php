@@ -48,9 +48,28 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
             return;
         } else {
             Mage::getSingleton('adminhtml/session')->addSuccess( Mage::helper('core')->__($fname." - File upload success"));
+
+            $this->_csvfileprocessingAction($fullname);
+
             $this->_redirectReferer();
             return;
         }
+    }
+
+    protected function _csvfileprocessingAction($filename)
+    {
+        $csv = new Varien_File_Csv();
+        $data = $csv->getData($filename);
+        var_dump( $data );
+
+        foreach ($data as $key=>$row) {
+            $prodname = $row[0];
+            $proddelta = $row[1];
+            $warehname = $row[2];
+            echo "<br>prodname=".$row[0]." delta=".$row[1]." wareh.=".$row[2];
+        }
+
+        die();
     }
 
     /**
