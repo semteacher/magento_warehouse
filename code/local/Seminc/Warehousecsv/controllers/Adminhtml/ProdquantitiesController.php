@@ -134,32 +134,39 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
                 }
                 else {
                     //the item does not exist in warehouse module - update through mage core inventory
-                    $new_prodquantities = $product_qty + $proddelta;
-                    echo "<br>prepare create new product qty from ".$product_qty." to ".$new_prodquantities;
-                    if ($new_prodquantities < 0) {
-                        $new_prodquantities = 0;
-                        echo "<br>new qty=0 without existing product qty - do nothing!";
+                    if ($proddelta > 0) {
+                        $new_prodquantities = $product_qty + $proddelta;
+                        echo "<br>prepare create new product qty from ".$product_qty." to ".$new_prodquantities;
+                        if ($new_prodquantities < 0) {
+                            $new_prodquantities = 0;
+                            echo "<br>new qty=0 without existing product qty - do nothing!";
+                        } else {
+                            $_prodquantities->setProdqtperwareh($new_prodquantities);
+                            $_prodquantities->setWarehouse_id($warehouse_id);
+                            $_prodquantities->setProduct_sku($product_sku);
+                            //TODO: tay/exception required
+                            $_prodquantities->save();
+                            echo "<br>save change new product qty";
+                        }
                     } else {
-                        $_prodquantities->setProdqtperwareh($new_prodquantities);
-                        $_prodquantities->setWarehouse_id($warehouse_id);
-                        $_prodquantities->setProduct_sku($product_sku);
-                        //TODO: tay/exception required
-                        $_prodquantities->save();
-                        echo "<br>save change new product qty";
+                        $errors = $errors.'SKIP: "'.$prodname.'" does not exist in warehouse module but _proddelta_ is negative!<br>';
+                        echo "<br>".$errors;
                     }
                 }
                 //if ($new_prodquantities < 0) { $new_prodquantities = 0; }
                 //update mage core inventory
                 //$product_qty = $new_prodquantities;
-                $_stock->setQty($new_prodquantities);
-                $_stock->setData('is_in_stock',$new_prodquantities ? 1 : 0);
-                //TODO: tay/exception required
-                $_stock->save();
-                echo "<br>save change mage inventory update from ".$product_qty." to ".$new_prodquantities;
+                if ($new_prodquantities !=$product_qty) {
+                    $_stock->setQty($new_prodquantities);
+                    $_stock->setData('is_in_stock',$new_prodquantities ? 1 : 0);
+                    //TODO: tay/exception required
+                    $_stock->save();
+                    echo "<br>save change mage inventory update from ".$product_qty." to ".$new_prodquantities;
+                }
 
             } else {
                 //exception/log that product does not exist
-                $errors = $errors.'"'.$prodname.'" does not exist<br>';
+                $errors = $errors.'SKIP: "'.$prodname.'" does not exist in Mage DB<br>';
                 echo "<br>".$errors;
             }
 
