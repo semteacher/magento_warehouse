@@ -63,37 +63,54 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
         $data = $csv->getData($filename);
         var_dump( $data );
         //get models
-        $_product = Mage::getModel('catalog/product');
-        $_warehouse = Mage::getModel('warehousecsv/warehouse');
-        $_prodquantities = Mage::getModel('warehousecsv/prodquantities');
+        //$_product = Mage::getModel('catalog/product');
+        //$_warehouse = Mage::getModel('warehousecsv/warehouse');
+        //$_prodquantities = Mage::getModel('warehousecsv/prodquantities');
         //process all rows in csv
         foreach ($data as $key=>$row) {
             $prodname = $row[0];
-            $proddelta = $row[1];
+            $proddelta = (int) $row[1];
             $warehname = $row[2];
-            echo "<br>prodname=".$row[0]." delta=".$row[1]." wareh.=".$row[2];
+            echo "<br><h3>".$key.". prodname=".$row[0]." delta=".$row[1]." wareh.=".$row[2]."</h3>";
             //load warehouse model
-            $_warehouse = $_warehouse->load($warehname,'warehousename');
-            if (!$_warehouse) {
+            //$_warehouse->load($warehname,'warehousename');
+            $_warehouse = Mage::getModel('warehousecsv/warehouse')->load($warehname,'warehousename');
+            //$warehouse = $_warehouse->load($warehname,'warehousename');
+            //echo "<br>";
+            //var_dump($_warehouse);
+            //echo "<br>";
+            //var_dump($warehouse);
+            //echo "<br>";
+            if (!($_warehouse->getId())) {
+                //if (!$_warehouse) {
                 //create a new warehouse
                 $_warehouse->setWarehousename($warehname);
                 //TODO: tay/exception required
                 $_warehouse->save();
                 echo "<br>create warehouse ".$warehname;
             }
-            $warehouse_id = $_warehouse->getWarehouse_id();
+            $warehouse_id = $_warehouse->getId();
+            echo "<br>current warehouse ID=".$warehouse_id;
             //load product model
-            $_product = $_product->loadByAttribute('name',$prodname);
-            if ($_product){
+            //$product = $_product->loadByAttribute('name',$prodname);
+            $product = Mage::getModel('catalog/product')->loadByAttribute('name',$prodname);
+            echo "<br>";
+            //var_dump($product);
+
+            if (is_object($product)){
+                //if (!$product->isObjectNew()){
+                echo "<br>current product ID=";
+                var_dump($product->getId());
                 //precess only existing products
                 //get product SKU
-                $product_sku = $_product->getSku();
+                $product_sku = $product->getSku();
                 echo "<br>get product SKU=".$product_sku;
                 //get product inventory quantity
-                $_stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product);
+                $_stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($product);
                 $product_qty = $_stock->getQty();
                 //load produqntites model
-                $_prodquantities_col = $_prodquantities->getCollection()
+                //$_prodquantities_col = $_prodquantities->getCollection()
+                $_prodquantities_col = Mage::getModel('warehousecsv/prodquantities')->getCollection()
                     ->addFieldToFilter('warehouse_id', $warehouse_id)
                     ->addFieldToFilter('product_sku', $product_sku);
                 $_prodquantities = $_prodquantities_col->getFirstItem();
@@ -108,6 +125,8 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
                         echo "<br>zero - delete existing module product qty record";
                     } else {
                         $_prodquantities->setProdqtperwareh($new_prodquantities);
+                        $_prodquantities->setWarehouse_id($warehouse_id);
+                        $_prodquantities->setProduct_sku($product_sku);
                         //TODO: tay/exception required
                         $_prodquantities->save();
                         echo "<br>save change existing product qty";
@@ -122,6 +141,8 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
                         echo "<br>new qty=0 without existing product qty - do nothing!";
                     } else {
                         $_prodquantities->setProdqtperwareh($new_prodquantities);
+                        $_prodquantities->setWarehouse_id($warehouse_id);
+                        $_prodquantities->setProduct_sku($product_sku);
                         //TODO: tay/exception required
                         $_prodquantities->save();
                         echo "<br>save change new product qty";
@@ -139,6 +160,7 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
             } else {
                 //exception/log that product does not exist
                 $errors = $errors.'"'.$prodname.'" does not exist<br>';
+                echo "<br>".$errors;
             }
 
         }
