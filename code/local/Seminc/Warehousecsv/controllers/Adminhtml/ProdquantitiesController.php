@@ -46,11 +46,13 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
             //$this->_redirect('*/*/');
             $this->_redirectReferer();
             return;
-        } else {
-            Mage::getSingleton('adminhtml/session')->addSuccess( Mage::helper('core')->__($fname." - File upload success"));
-
-            $this->_csvfileprocessingAction($fullname);
-
+        } else {          
+            $errors = $this->_csvfileprocessingAction($fullname);
+            if ($errors == ''){
+                Mage::getSingleton('adminhtml/session')->addSuccess( Mage::helper('core')->__($fname." - File loaded and parsed successfully"));                
+            } else {
+                Mage::getSingleton('adminhtml/session')->addError( Mage::helper('core')->__($errors));
+            }
             $this->_redirectReferer();
             return;
         }
@@ -61,7 +63,11 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
         $errors = '';
         $csv = new Varien_File_Csv();
         $data = $csv->getData($filename);
-        //process all rows in csv
+        //start transaction
+        try 
+        {
+            $transaction = Mage::getModel('core/resource_transaction')
+            //process all rows in csv
         foreach ($data as $key=>$row) {
             $prodname = $row[0];
             $proddelta = (int) $row[1];
@@ -160,10 +166,16 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
                 $errors = $errors.'SKIP: "'.$prodname.'" does not exist in Mage DB<br>';
                 //echo "<br>".$errors;
             }
-
         }
-
-        die($errors);
+            $transaction->save();
+        } catch (Exception $e) 
+        {
+            $errors = $errors.'FATAL ERROR: '.$e->getMessage();
+            //echo "<br>".$errors;
+            return $errors;
+        }
+        //die($errors);
+        return $errors;
     }
 
     /**
