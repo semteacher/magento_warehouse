@@ -31,7 +31,7 @@ class Seminc_Warehousecsv_Helper_Data extends Mage_Core_Helper_Abstract
     {
         //load produqntites resource model collection
         $prodquantitiesCollection = Mage::getModel('warehousecsv/prodquantities')->getCollection()
-            ->addFieldToFilter('warehouseId', $warehouseId)
+            ->addFieldToFilter('warehouse_id', $warehouseId)
             ->addFieldToFilter('product_sku', $productSku);
         $prodQtyResModel = $prodquantitiesCollection->getFirstItem();
         return $prodQtyResModel;
