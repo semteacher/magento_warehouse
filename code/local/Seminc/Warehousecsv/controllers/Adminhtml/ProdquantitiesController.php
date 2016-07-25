@@ -75,17 +75,11 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
             //load warehouse model
             //$_warehouse->load($warehname,'warehousename');
             $_warehouse = Mage::getModel('warehousecsv/warehouse')->load($warehname,'warehousename');
-            //$warehouse = $_warehouse->load($warehname,'warehousename');
-            //echo "<br>";
-            //var_dump($_warehouse);
-            //echo "<br>";
-            //var_dump($warehouse);
-            //echo "<br>";
             if (!($_warehouse->getId())) {
                 //if (!$_warehouse) {
                 //create a new warehouse
                 $_warehouse->setWarehousename($warehname);
-                //TODO: tay/exception required
+                //TODO: tray/exception required
                 $_warehouse->save();
                 echo "<br>create warehouse ".$warehname;
             }
@@ -94,7 +88,7 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
             //load product model
             //$product = $_product->loadByAttribute('name',$prodname);
             $product = Mage::getModel('catalog/product')->loadByAttribute('name',$prodname);
-            echo "<br>";
+            //echo "<br>";
             //var_dump($product);
 
             if (is_object($product)){
@@ -108,6 +102,21 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
                 //get product inventory quantity
                 $_stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($product);
                 $product_qty = $_stock->getQty();
+                echo "<br>get product inventory QTY=".$product_qty;
+
+                //get current product total qty in all warehouses
+                $_prodquantities_collection = Mage::getModel('warehousecsv/prodquantities')->getCollection()
+                    ->addExpressionFieldToSelect('total_qty', 'SUM(prodqtperwareh)', array('prodqtperwareh'))
+                    ->addFieldToFilter('product_sku', $product_sku);
+                //$collection->getSelect()->group('product_sku');
+                $_prodquantities_total = $_prodquantities_collection->getFirstItem()->getData('total_qty');
+                echo "<br>get product total qty in warehouse module=".$_prodquantities_total;
+                //used for the first time only, really:
+                //При первом запуске подразумевается, что ни на одном из складов нет ни одного продукта.
+                if ($_prodquantities_total <> $product_qty) {
+                    $product_qty = $_prodquantities_total;
+                }
+
                 //load produqntites model
                 //$_prodquantities_col = $_prodquantities->getCollection()
                 $_prodquantities_col = Mage::getModel('warehousecsv/prodquantities')->getCollection()
@@ -120,14 +129,19 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
                     echo "<br>prepare change existing product qty from ".$_prodquantities->getProdqtperwareh()." to ".$new_prodquantities;
                     if ($new_prodquantities < 0) {
                         $new_prodquantities = 0;
-                        //TODO: tay/exception required?
+                        //update inventory qty
+                        $product_qty = $product_qty - $_prodquantities->getProdqtperwareh();
+                        //TODO: tray/exception required?
                         $_prodquantities->delete();
-                        echo "<br>zero - delete existing module product qty record";
+                        echo "<br>zero - delete existing warehouse module product qty record";
                     } else {
+                        //update inventory qty
+                        $product_qty = $product_qty + $proddelta;
+                        //save warehouse qty
                         $_prodquantities->setProdqtperwareh($new_prodquantities);
                         $_prodquantities->setWarehouse_id($warehouse_id);
                         $_prodquantities->setProduct_sku($product_sku);
-                        //TODO: tay/exception required
+                        //TODO: tray/exception required
                         $_prodquantities->save();
                         echo "<br>save change existing product qty";
                     }
@@ -135,34 +149,34 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
                 else {
                     //the item does not exist in warehouse module - update through mage core inventory
                     if ($proddelta > 0) {
-                        $new_prodquantities = $product_qty + $proddelta;
-                        echo "<br>prepare create new product qty from ".$product_qty." to ".$new_prodquantities;
-                        if ($new_prodquantities < 0) {
-                            $new_prodquantities = 0;
-                            echo "<br>new qty=0 without existing product qty - do nothing!";
-                        } else {
-                            $_prodquantities->setProdqtperwareh($new_prodquantities);
-                            $_prodquantities->setWarehouse_id($warehouse_id);
-                            $_prodquantities->setProduct_sku($product_sku);
-                            //TODO: tay/exception required
-                            $_prodquantities->save();
-                            echo "<br>save change new product qty";
-                        }
+                        //we can just ADD a positive amount - we CAN NOT subtract!
+                        $new_prodquantities = $proddelta;
+                        //update inventory qty
+                        $product_qty = $product_qty + $proddelta;
+                        echo "<br>prepare create new product qty from ZERO to ".$new_prodquantities;
+                        //save warehouse qty
+                        $_prodquantities->setProdqtperwareh($new_prodquantities);
+                        $_prodquantities->setWarehouse_id($warehouse_id);
+                        $_prodquantities->setProduct_sku($product_sku);
+                        //TODO: tray/exception required
+                        $_prodquantities->save();
+                        echo "<br>save change new product qty";
+
                     } else {
-                        $errors = $errors.'SKIP: "'.$prodname.'" does not exist in warehouse module but _proddelta_ is negative!<br>';
+                        $errors = $errors.'SKIP: "'.$prodname.'" does not exist in THIS warehouse but _proddelta_ is negative!<br>';
                         echo "<br>".$errors;
                     }
                 }
                 //if ($new_prodquantities < 0) { $new_prodquantities = 0; }
                 //update mage core inventory
                 //$product_qty = $new_prodquantities;
-                if ($new_prodquantities !=$product_qty) {
-                    $_stock->setQty($new_prodquantities);
-                    $_stock->setData('is_in_stock',$new_prodquantities ? 1 : 0);
-                    //TODO: tay/exception required
-                    $_stock->save();
-                    echo "<br>save change mage inventory update from ".$product_qty." to ".$new_prodquantities;
-                }
+                //if ($new_prodquantities !=$product_qty) {
+                $_stock->setQty($product_qty);
+                $_stock->setData('is_in_stock',$product_qty ? 1 : 0);
+                //TODO: tray/exception required
+                $_stock->save();
+                echo "<br>save change mage inventory update to ".$product_qty;
+                //}
 
             } else {
                 //exception/log that product does not exist
