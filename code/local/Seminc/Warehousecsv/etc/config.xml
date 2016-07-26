@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Seminc_Warehousecsv>
-            <version>0.1.0</version>    <!-- Version number of your module -->
+            <version>0.1.2</version>    <!-- Version number of your module -->
         </Seminc_Warehousecsv>
     </modules>
     <frontend>
@@ -23,29 +23,71 @@
             </updates>
         </layout>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <seminc_testmod before="Mage_Adminhtml">Seminc_Warehousecsv_Adminhtml</seminc_testmod>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-        <layout>
-            <updates>
-                <warehousecsv>
-                    <file>warehousecsv.xml</file> <!-- Our layout file name-->
-                </warehousecsv>
-            </updates>
-        </layout>
-    </admin>
     <global>
+        <!--add an adminhtml block definition-->
+        <blocks>
+            <seminc_warehousecsv_adminhtml>
+                <class>Seminc_Warehousecsv_Block_Adminhtml</class>
+            </seminc_warehousecsv_adminhtml>
+        </blocks>
+
         <blocks>
             <warehousecsv>
                 <class>Seminc_Warehousecsv_Block</class>
             </warehousecsv>
         </blocks>
+
+        <helpers>
+            <seminc_warehousecsv>
+                <class>Seminc_Warehousecsv_Helper</class>
+            </seminc_warehousecsv>
+        </helpers>
+
+        <models>
+            <warehousecsv>
+                <class>Seminc_Warehousecsv_Model</class>
+                <resourceModel>warehousecsv_resource</resourceModel>
+            </warehousecsv>
+            <warehousecsv_resource>
+                <class>Seminc_Warehousecsv_Model_Resource</class>
+                <entities>
+                    <warehouse>
+                        <table>csv_warehouse_data</table>
+                    </warehouse>
+                    <prodquantities>
+                        <table>csv_warehouse_prodquantities</table>
+                    </prodquantities>
+                </entities>
+            </warehousecsv_resource>
+        </models>
+
+        <resources>
+            <warehousecsv_setup>
+                <setup>
+                    <module>Seminc_Warehousecsv</module>
+                    <class>Seminc_Warehousecsv_Model_Resource_Setup</class>
+                </setup>
+            </warehousecsv_setup>
+        </resources>
     </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Seminc_Warehousecsv before="Mage_Adminhtml">Seminc_Warehousecsv_Adminhtml</Seminc_Warehousecsv>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <warehousecsv>
+                    <file>warehousecsv.xml</file>
+                </warehousecsv>
+            </updates>
+        </layout>
+    </adminhtml>
 </config>
