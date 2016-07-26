@@ -27,14 +27,9 @@ class Seminc_Warehousecsv_Block_Adminhtml_Prodquantities_Grid extends Mage_Admin
     protected function _prepareCollection()
     {
         // Get and set our collection for the grid
-        $collection = Mage::getResourceModel($this->_getCollectionClass())
-            ->addExpressionFieldToSelect('prod_total_qty', 'SUM(prodqtperwareh)', array('prodqtperwareh'));
+        $collection = Mage::getResourceModel($this->_getCollectionClass())->addProductName();
+        $collection->addExpressionFieldToSelect('prod_total_qty', 'SUM(prodqtperwareh)', array('prodqtperwareh'));
         $collection->getSelect()->group('product_sku');
-
-        //$prodquantitiesCollection = Mage::getModel('warehousecsv/prodquantities')->getCollection()
-        //    ->addExpressionFieldToSelect('prod_total_qty', 'SUM(prodqtperwareh)', array('prodqtperwareh'))
-        //    ->addFieldToFilter('product_sku', $product_sku);
-        //$collection->getSelect()->group('product_sku');
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -43,11 +38,18 @@ class Seminc_Warehousecsv_Block_Adminhtml_Prodquantities_Grid extends Mage_Admin
     protected function _prepareColumns()
     {
         // Add the columns that should appear in the grid
+        $this->addColumn('product_name',
+            array(
+                'header' => $this->__('Product Name'),
+                'width' => '150px',
+                'index' =>'product_name',
+                'filter_index' =>'cpev.value'
+        )
+        );
 
         $this->addColumn('product_sku',
             array(
                 'header'=> $this->__('Product SKU'),
-                'align' =>'right',
                 'width' => '50px',
                 'index' => 'product_sku'
             )
@@ -60,7 +62,6 @@ class Seminc_Warehousecsv_Block_Adminhtml_Prodquantities_Grid extends Mage_Admin
                 'index' => 'prod_total_qty'
             )
         );
-
 
         return parent::_prepareColumns();
     }
