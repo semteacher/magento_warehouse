@@ -19,11 +19,11 @@ class Seminc_Warehousecsv_Block_Adminhtml_Prodquantities extends Mage_Adminhtml_
         //Replace the first argument "add" by something else,
         //or both your new button and the original add button
         //won't be visible.
-        $this->_addButton('upload', array(
-            'label' => $this->__('Upload CSV File'),
-            'onclick' => "setLocation('" . $this->getUrl('*/*/upload', array('page_key' => 'collection')) . "')",
-            'class' => 'add'
-        ));
+        //$this->_addButton('upload', array(
+        //    'label' => $this->__('Upload CSV File'),
+        //    'onclick' => "setLocation('" . $this->getUrl('*/*/upload', array('page_key' => 'collection')) . "')",
+        //    'class' => 'add'
+        //));
         
         parent::__construct();
 
