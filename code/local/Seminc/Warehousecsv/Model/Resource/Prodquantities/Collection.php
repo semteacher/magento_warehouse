@@ -35,4 +35,14 @@ class Seminc_Warehousecsv_Model_Resource_Prodquantities_Collection extends Mage_
 
         return $this;
     }
+
+    public function addWarehouseName()
+    {
+        $this->getSelect()
+            ->joinLeft(
+                array('wareh' => 'csv_warehouse_data'),
+                'wareh.warehouse_id = main_table.warehouse_id',
+                array('warehousename')
+            );
+    }
 }

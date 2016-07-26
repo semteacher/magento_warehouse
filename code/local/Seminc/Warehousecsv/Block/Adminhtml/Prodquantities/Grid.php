@@ -28,10 +28,11 @@ class Seminc_Warehousecsv_Block_Adminhtml_Prodquantities_Grid extends Mage_Admin
     {
         // Get and set our collection for the grid
         $collection = Mage::getResourceModel($this->_getCollectionClass())->addProductName();
+        $collection->addWarehouseName();
         $collection->addExpressionFieldToSelect('prod_total_qty', 'SUM(prodqtperwareh)', array('prodqtperwareh'));
+        $collection->addExpressionFieldToSelect('warehouses', 'GROUP_CONCAT({{warname}} SEPARATOR ", ")', array('warname'=>'wareh.warehousename'));
         $collection->getSelect()->group('product_sku');
 
-        $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
@@ -60,6 +61,15 @@ class Seminc_Warehousecsv_Block_Adminhtml_Prodquantities_Grid extends Mage_Admin
                 'header'=> $this->__('Total Prod. Qty.'),
                 'width' => '50px',
                 'index' => 'prod_total_qty'
+            )
+        );
+
+        $this->addColumn('warehouses',
+            array(
+                'header' => $this->__('Warehouses'),
+                'width' => '150px',
+                'index' =>'warehouses',
+                'filter_index' =>'wareh.warehousename'
             )
         );
 
