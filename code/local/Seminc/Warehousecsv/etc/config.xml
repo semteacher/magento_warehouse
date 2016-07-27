@@ -8,6 +8,9 @@
     <global>
         <!--add an adminhtml block definition-->
         <blocks>
+            <warehousecsv>
+                <class>Seminc_Warehousecsv_Block</class>
+            </warehousecsv>
             <seminc_warehousecsv_adminhtml>
                 <class>Seminc_Warehousecsv_Block_Adminhtml</class>
             </seminc_warehousecsv_adminhtml>

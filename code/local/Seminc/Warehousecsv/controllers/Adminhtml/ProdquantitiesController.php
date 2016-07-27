@@ -9,9 +9,6 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
 {
     public function indexAction()
     {
-//        $this->loadLayout();
-//        $this->renderLayout();
-//        return $this;
         // Let's call our initAction method which will set some basic params for each action
         $this->_initAction()
             ->renderLayout();
