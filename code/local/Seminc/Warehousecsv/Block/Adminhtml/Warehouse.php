@@ -9,8 +9,6 @@ class Seminc_Warehousecsv_Block_Adminhtml_Warehouse extends Mage_Adminhtml_Block
 {
     public function __construct()
     {
-        //echo 'construct admin block';
-        //die();
         // The blockGroup must match the first half of how we call the block, and controller matches the second half
         // ie. seminc_warehousecsv/adminhtml_prodquantities
         $this->_blockGroup = 'seminc_warehousecsv_adminhtml';
