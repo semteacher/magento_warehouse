@@ -5,36 +5,12 @@
             <version>0.1.2</version>    <!-- Version number of your module -->
         </Seminc_Warehousecsv>
     </modules>
-    <frontend>
-        <routers>
-            <warehousecsv>
-                <use>standard</use>
-                <args>
-                    <module>Seminc_Warehousecsv</module>
-                    <frontName>warehousecsv</frontName>
-                </args>
-            </warehousecsv>
-        </routers>
-        <layout>
-            <updates>
-                <warehousecsv>
-                    <file>warehousecsv.xml</file> <!-- Our layout file name-->
-                </warehousecsv>
-            </updates>
-        </layout>
-    </frontend>
     <global>
         <!--add an adminhtml block definition-->
         <blocks>
             <seminc_warehousecsv_adminhtml>
                 <class>Seminc_Warehousecsv_Block_Adminhtml</class>
             </seminc_warehousecsv_adminhtml>
-        </blocks>
-
-        <blocks>
-            <warehousecsv>
-                <class>Seminc_Warehousecsv_Block</class>
-            </warehousecsv>
         </blocks>
 
         <helpers>
