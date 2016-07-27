@@ -28,6 +28,7 @@ class Seminc_Warehousecsv_Block_Adminhtml_Warehouse_Grid extends Mage_Adminhtml_
     {
         // Get and set our collection for the grid
         $collection = Mage::getResourceModel($this->_getCollectionClass());
+        
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

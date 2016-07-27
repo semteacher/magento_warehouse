@@ -32,7 +32,8 @@ class Seminc_Warehousecsv_Block_Adminhtml_Prodquantities_Grid extends Mage_Admin
         $collection->addExpressionFieldToSelect('prod_total_qty', 'SUM(prodqtperwareh)', array('prodqtperwareh'));
         $collection->addExpressionFieldToSelect('warehouses', 'GROUP_CONCAT({{warname}} SEPARATOR ", ")', array('warname'=>'wareh.warehousename'));
         $collection->getSelect()->group('product_sku');
-
+        
+        $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
