@@ -66,7 +66,7 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
             $transaction = Mage::getModel('core/resource_transaction');
             //process all rows in csv
         foreach ($data as $key=>$row) {
-            $prodname = $row[0];
+            $productSku = $row[0];
             $proddelta = (int) $row[1];
             $warehname = $row[2];
             //load warehouse model
@@ -79,11 +79,9 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
             }
             $warehouseId = $_warehouse->getId();
             //load product model
-            $_product = Mage::getModel('catalog/product')->loadByAttribute('name',$prodname);
+            $_product = Mage::getModel('catalog/product')->loadByAttribute('sku',$productSku);
             //process only existing product object
             if (is_object($_product)){
-                //get product SKU
-                $productSku = $_product->getSku();
                 //get product inventory quantity
                 $_stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product);
                 $productStockQty = $_stock->getQty();
@@ -130,7 +128,7 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
                         //TODO: is it tray/exception required
                         //$prodQtyResModel->save();
                     } else {
-                        $errors = $errors.'SKIP: "'.$prodname.'" does not exist in THIS warehouse: ID='.$warehouseId.', BUT _proddelta_ is negative!<br>';
+                        $errors = $errors.'SKIP: "'.$productSku.'" does not exist in THIS warehouse: ID='.$warehouseId.', BUT _proddelta_ is negative!<br>';
                     }
                 }
                 //update mage core inventory
@@ -140,7 +138,7 @@ class Seminc_Warehousecsv_Adminhtml_ProdquantitiesController extends Mage_Adminh
                 //$_stock->save();
             } else {
                 //log that product does not exist
-                $errors = $errors.'SKIP: "'.$prodname.'" does not exist in Mage DB<br>';
+                $errors = $errors.'SKIP: "'.$productSku.'" does not exist in Mage DB<br>';
             }
         }
             $transaction->save();
